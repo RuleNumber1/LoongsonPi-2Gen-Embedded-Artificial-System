@@ -177,6 +177,7 @@ void ap_sta_info(){
 Ticker quick_ticker;
 Ticker middle_ticker;
 Ticker slow_ticker;
+Ticker seri_ticker;
 //任务工作频率分类，大致分为3类，高速、中速、低速
 void quick_speed_ticker(){
   light_measure(lightMeter);
@@ -190,6 +191,30 @@ void middle_speed_ticker(){
 void slow_speed_ticker(){
   TempHumi_measure(dht11);//至少间隔1秒
   ap_sta_info();//没必要很快
+}
+void serial_ticker(){
+  Serial.println(AP_access_number);
+  Serial.println(AP_IP);
+  Serial.println(STA_IP);
+  Serial.println(STA_RSSI);
+  Serial.println(STA_CH);
+  Serial.println(t_str);
+  Serial.println(h_str);
+  Serial.println(dp_str);
+  Serial.println(li_str);
+  Serial.println(sgp_str);
+  Serial.println(eCO2_str);
+  Serial.println(TVOC_str);
+  Serial.println(H2_str);
+  Serial.println(Et_str);
+  Serial.println(BMPt_str);
+  Serial.println(pre_str);
+  Serial.println(alti_str);
+  Serial.println(boil_str);
+  Serial.println(X_str);
+  Serial.println(Y_str);
+  Serial.println(Z_str);
+  Serial.println(azi_str);
 }
 //**********************************************************************************************************
 //**********************************************************************************************************
@@ -360,6 +385,7 @@ void loop(){
   if(client){
     if(client.connected()){
       setScreen_6(u8g2);
+      seri_ticker.attach(1,serial_ticker);
     }
     while(client.connected()){
       if(client.available()>0){
@@ -379,6 +405,10 @@ void loop(){
           client.write(dp_str.c_str());
         }
       }
+    }
+    if(!client.connected()){
+      seri_ticker.detach();
+      Serial.println("connection over!please turn to OLED screen");
     }
   }
 }
