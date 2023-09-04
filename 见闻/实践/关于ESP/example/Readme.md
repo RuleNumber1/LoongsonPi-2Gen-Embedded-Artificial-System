@@ -1,0 +1,20 @@
+# 说明
+
+本目录为作者用于测试ESP而顺便提供的示例代码库，通常以多个测试给出一个结论的形式完成示例与论证，实践出真知，希望对读者有用。
+
+## AP_TcpServer系列
+
+- AP_TcpServer：用于测试是否能让ESP-12f以AP的模式进行Tcp通信，测试逻辑为
+  1. 将ESP配置为AP模式，确定网关IP和AP模式下的local_IP，并在loop中创建WiFiServer，并等待WiFiClient的连接
+  2. 在PC上通过Tcp的相关代码对AP模式下的local_IP进行连接并测试指令工作情况
+- AP_TcpServer_Ticker：基于AP_TcpServer代码示例进一步测试，观察是否能通过Ticker的机制将TCPServer的功能放置于后台。若能实现，则可以把一个ESP8266同时配置为多个服务器，如TCP、HTTP、DNS，以提供更加完善的服务。
+- AP_TcpServer_MultiConnection：基于AP_TcpServer代码示例进一步测试，观察在多个客户端同时连接到ESP上搭载的TCPServer时，ESP是否能（仅基于WiFiServer库）完成同时应付多个客户端请求的工作
+
+该系列测试仅完成前两个测试，第三个压力测试还未完成。
+
+结论1.0：
+
+- 当ESP仅配置为AP模式时，ESP上会有一个网关IP，还有一个local_IP，其中网关IP可以等价于一个路由器，local_IP可以等价为一个连接路由器的设备，此时ESP会创建一个WiFi局域网（无因特网服务），并且当其他设备连接到该局域网时，可通过ESP的local_IP去访问ESP上的TcpServer。
+- 存在一些小问题，例如网关IP是ping不通的，local_IP可以ping通，个人认为网关IP仅用于DHCP服务功能，并不用于ping测试。
+- 无法完成Ticker机制，即服务器无法在后台工作，可以认为ESP仅能配置为一种、一台服务器，不能同时配置为多种多台服务器，本作品必须将ESP配置为TcpServer，非常遗憾不能实现网络上常见的“通过WebServer将ESP连接到各种路由器网络中”的功能，但是可以尝试通过Socket给ESP配置WiFi，根据网络测试结果，ESP创建的WiFi局域网的通信速率约为300kb/s，传输一个较长的字符串应该能很好的完成，通过这个字符串去配置STA就行了
+
