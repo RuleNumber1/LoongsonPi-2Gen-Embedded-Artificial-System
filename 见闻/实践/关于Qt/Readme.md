@@ -14,7 +14,7 @@
 
 ### Windows安装Qt 5.14.2
 
-清华镜像源：https://mirrors.tuna.tsinghua.edu.cn/qt/official_releases/qt/，打开任意版本的QT的offline_readme.txt可看到内容如下（我打开5.15.0）：
+清华镜像源：```https://mirrors.tuna.tsinghua.edu.cn/qt/official_releases/qt/```，打开任意版本的QT的offline_readme.txt可看到内容如下（我打开5.15.0）：
 
 ```latex
 Due to The Qt Company offering changes, open source offline installers are not available any more since Qt 5.15. Read more about offering changes in the https://www.qt.io/blog/qt-offering-changes-2020 blog.
@@ -127,7 +127,7 @@ sudo apt-get install qtbase5-examples
 
 根据前文可知，qmqtt的编译最好选择与qt版本相对应的版本，登录VNC，打开qt图形化界面，tools-Kits-Qt Versions可查看到Qt版本，下载最接近的mqtt版本即可，此处树莓派安装的qt为5.11.3版本，mqtt仓库内仅有5.11.2版本，无.3，故下载.2版本进行编译。
 
-下载源码之后打开src目录下的src.pro工程文件，注意在Projects中去除shadow build，编译思路与windows平台近似，通常会遇到**无法找到头文件xxx.h头文件**的问题，修改#include格式即可，例如#include<QtMqtt/qmqttglobal.h>出错，就#include<qmqttglobal.h>，如果还出错，就#include"qmqttglobal.h"，相关问题为C和C++语言问题，不是QT的问题。
+下载源码之后打开src目录下的src.pro工程文件，注意在Projects中去除shadow build，编译思路与windows平台近似，通常会遇到**无法找到头文件xxx.h头文件**的问题，修改#include格式即可，例如#include<QtMqtt/qmqttglobal.h>出错，就#include<qmqttglobal.h>，如果还出错，就```#include"qmqttglobal.h"```，相关问题为C和C++语言问题，不是QT的问题。
 
 编译之后找到编译目录下的include、lib、mqtt文件夹，新建qt工程，将三个文件夹全部复制到qt工程中，与main.c文件同级，重新打开工程。qt自动读入mqtt和include，添加lib需要右键工程文件夹-Add Library-External library-Library file选择lib下的libQt5Mqtt.so即可，其他选项默认，结果可在qt项目中看到Other files目录下有lib文件夹。
 
