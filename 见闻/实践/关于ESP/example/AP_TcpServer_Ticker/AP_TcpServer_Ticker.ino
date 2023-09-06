@@ -4,7 +4,7 @@
 //   PURPOSE: 基于example-AP_TcpServer.ino进行进一步测试，测试是否能把TcpServer以Ticker的形式放在后台进行通信
 //Created on: 09.03.2023
 //      Tips: 除ESP8266外无需接入任何多余硬件
-//
+//   测试结果：AP_TcpServer可用，AP_TcpServer_Ticker不可用
 
 #include<ESP8266WiFi.h>
 #include<Ticker.h>
