@@ -46,10 +46,13 @@ void TcpServer_replyMessage(){
   }
 }
 Ticker TCP_ticker;
+bool tcp_flag=true;
 void loop() {
-  if(client){
+  if(client&&tcp_flag){
     TCP_ticker.attach_ms(100,TcpServer_replyMessage);
+    tcp_flag=false;
   }else{
     TCP_ticker.detach();
+    tcp_flag=true;
   }
 }
