@@ -41,7 +41,7 @@
 
 # 目录
 
-[1 demo](./demo/Readme.md)
+[1.0 demo](./demo/Readme.md)
 
 - [1.1 关于ESP](./demo/关于ESP/Readme.md)
 - [1.2 关于立创EDA](./demo/关于立创EDA/Readme.md)
@@ -52,7 +52,7 @@
 - [1.7 关于OneNET](./demo/关于OneNET/Readme.md)
 - [1.8 关于手机端](./demo/关于手机端/Readme.md)
 
-[2 额外说明](./addition/额外说明/Readme.md)
+[2.0 额外说明](./addition/额外说明/Readme.md)
 
-[3 Q&A](./addition/Q&A/Readme.md)
+[3.0 Q&A](./addition/Q&A/Readme.md)
 
