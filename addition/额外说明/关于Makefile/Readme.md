@@ -2,7 +2,7 @@
 
 ## 是什么
 
-人话：
+人话：Makefile是一个非常非常牛逼的发明，我推测Windows上所有项目都是先通过一个*make.exe对项目生成Makefile
 
 官话：
 

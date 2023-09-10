@@ -149,50 +149,33 @@ sudo apt-get install qtbase5-examples
 
 4. 配置Qt编译环境：Qt编译依赖环境参考官方指定文档[Building Qt 5 from Git - Qt Wiki](https://wiki.qt.io/Building_Qt_5_from_Git)，主要包括Linux/X11下除```Convenience packages```以外的所有内容，第一项为```bulid-dep```，最后一项为```QDoc Documentation Generator Tool```
 
-5. 准备编译材料：①qt源码，此处仍然选择最后一个可以直接在windows离线安装的qt5.14.2版本；②树莓派交叉编译工具链，资源获取地址[Linaro Releases](http://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/arm-linux-gnueabihf/)，下载其中的```gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz```、```runtime-gcc-linaro-7.5.0-2019.12-arm-linux-gnueabihf.tar.xz```、```sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf.tar.xz```三个压缩包，下载完成之后三个压缩包可能格式会由tar.xz变为tar.tar，重命名为tar.xz即可传输到Ubuntu中正常解压；解压方式为```sudo tar -xvf qt.tar.xz```，使用-zxvf的方式可能无法使用Tab自动补全，故使用-xvf；如仍无法自动补全，可考虑使用```sudo chmod 777 qt.tar.xz```给文件权限；
+5. 准备编译材料：①qt源码，此处仍然选择最后一个可以直接在windows离线安装的qt5.14.2版本；②树莓派交叉编译工具链，资源获取地址[Linaro Releases](http://releases.linaro.org/components/toolchain/binaries/7.5-2019.12/arm-linux-gnueabihf/)，下载其中的```gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf.tar.xz```、```runtime-gcc-linaro-7.5.0-2019.12-arm-linux-gnueabihf.tar.xz```、```sysroot-glibc-linaro-2.25-2019.12-arm-linux-gnueabihf.tar.xz```三个压缩包，下载完成之后三个压缩包可能格式会由tar.xz变为tar.tar，重命名为tar.xz即可传输到Ubuntu中正常解压；解压方式为```sudo tar -xvf qt.tar.xz```，使用-zxvf的方式可能无法使用Tab自动补全，故使用-xvf；如仍无法自动补全，可考虑使用```sudo chmod 777 qt.tar.xz```给文件权限；解压完成之后把三个文件夹合成一个文件夹，建议把sysroot、runtime里边的文件夹都复制到gcc中，即合并bin、lib等文件夹即可，之后带着gcc的整个包到处复制就行了。
 
 6. 在Ubuntu上安装Qt5.14.2：下载.run文件链接[Index of /archive/qt/5.14/5.14.2](https://download.qt.io/archive/qt/5.14/5.14.2/)，如遇下载缓慢问题可考虑用windows下载、浏览器改为迅雷下载；安装过程中可将虚拟机断开网络连接，防止Qt安装包要求登录；安装时全部勾选即可；安装完成之后本文遇到了qtcreator无法从命令行启动的问题，直接从图形化界面打开```/opt/Qt5.14.2/Tools/QtCreator/bin```，运行qtcreator即可打开IDE；此时可使用x86平台的Kit、qmake、gcc编译出可执行文件
 
-7. 用工具链编译交叉编译所需的qmake：要求①存在路径```/opt/qt-everywhere-src-5.14.2```，如还未cp解压包到opt路径，可使用```cp -r xxx xxx```搬移文件夹；要求②在terminal内输入arm后连续按两下Tab应当出现相关工具链，否则需要添加工具链到环境变量，流程包含：
+7. 参考网络链接：[为树莓派4交叉编译QT5.14.2（带EGLFS支持）](https://zhuanlan.zhihu.com/p/138021025)，大致流程为：更新树莓派，更新X86主机上的环境，通过树莓派配置X86主机上的sysroot，生成qtbase的qmake。
 
-   - 存在路径```/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf```，然后```sudo vim /etc/bash.bashrc```，在文件最后行```fi```下方填写内容：
+   - 交叉编译的要求就是，在主机和目标机上都存在目标机的环境，在主机上存在交叉编译的环境
+   - Qt交叉编译的要求参考Qt官方文档的说明：[Configure an Embedded Linux Device | Qt 6.5](https://doc.qt.io/qt-6/configure-linux-device.html)，这里有说明为什么要配置toolchain和sysroot
+   - 网络教程缺失的py文件可以直接在github搜索文件名，然后会有人保存改文件的
+   - 我多次跟了这个教程，目前为止都是没有再继续出问题的，如出任何问题，请重装树莓派系统、删除已配置的qt-everywhere-src，然后再严格按照教程来做
+   - 最后会在/home/host-name/raspi/qt5pi/bin中发现qmake文件，该文件为核心文件，不过之后都需要带着整个raspi文件夹走到任何地方了。
 
-     1. ```export QTDIR=/opt/Qt5.14.2/5.14.2/gcc_64```
-     2. ```export PATH=$QTDIR/bin:/opt/Qt5.14.2/Tools/QtCreator/bin:$PATH```
-     3. ```export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH```
-     4. ```export PATH=$PATH:/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin```
+8. 获得qmake之后，之后所有的操作都是：
 
-     然后保存退出，执行```source /etc/profile```，可以完成arm后接两次Tab出现工具链
+   - `cd qt-everywhere-src/other qt module`
+   - ``/home/host-name/raspi/qt5pi-host/bin/qmake``
+   - ``sudo make -j32``
+   - ``sudo make install``
 
-   - 修改```/opt/qt-everywhere-src-5.14.2/qtbase/mkspecs/linux-arm-gnueabi-g++/qmake.conf```，修改内容包括：
+   然后再同步到树莓派上去
 
-     1. ```QMAKE_CC=arm-linux-gnueabihf-gcc```，原内容为```QMAKE_CC=arm-linux-gnueabi-gcc```，以下同理
-     2. ```QMAKE_CXX=arm-linux-gnueabihf-g++```
-     3. ```QMAKE_LINK```
-     4. ```QMAKE_LINK_SHLIB```
-     5. ```QMAKE_AR```
-     6. ```QMAKE_OBJCOPY```
-     7. ```QMAKE_NM```
-     8. ```QMAKE_STRIP```
+   - ``rsync -avz /home/host-name/raspi/qt5pi pi@192.168.1.x:/usr/local``
 
-   - 在```/opt/qt-everywhere-src-5.14.2```下运行指令：
+   同步到树莓派的原因很简单，编译qt的各个模块都会获得相关的.so文件，类似于.lib文件那样，仅需要库文件和头文件就能使用函数了，不需要.c源文件了
 
-     1. ```sudo mkdir install```
-     2. ```./configure -prefix /opt/qt-everywhere-src-5.14.2/install -opensource -confirm-license -no-opengl -xplatform linux-arm-gnueabi-g++```，其中install为qmake生成路径，-no-opengl指定不编译OpenGL库，默认编译的话会给出报错内容：```ERROR:The OpenGL functionality tests failed!```
-     3. ```sudo make -j4```，此处指明4个并行编译的任务数，一般为核心数的2倍，例如新建虚拟机时选择处理器数量为4，每个处理器的内核数量为1，总数为4，可指定-j8比较合适
-     4. ```sudo make install```，如果采用```sudo make -j4&&sudo make install```可能无法在install路径下找到qmake，可单独分开执行
+9. 后边配置qt creator的kits可以继续跟着教程走，需要注意的一个东西是Device可以不用配置key，对我来说，我随时可能把系统洗的一干二净，配key反而麻烦了，输密码就行了，把key的设置改为default就行了
 
-   - 如果```make -j4```时遇到其他问题，可自行搜索网络资源解决，本文未遇到其他问题。
-
-   - 在```/opt/qt-everywhere-src-5.14.2/install/bin```下获得qmake文件
-
-8. 在qtcreator内配置交叉编译环境：Tools-Options-Kits，
-
-   - 编译器内手动（Manual）添加（add）GCC-C，名称自拟，本文为```GCC(arm-linux-gnueabihf-gcc)```，路径为```/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-cpp```，注意是cpp不是gcc，手动（Manual）添加（add）GCC-C++，名称自拟，本文为```G++(arm-linux-gnueabihf-g++)```，路径为```/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-c++```，注意是c++不是g++
-   - Qt Version内手动（Manual）添加（add）```/opt/qt-everywhere-src-5.14.2/install/bin/qmake```，版本名称自拟，本文为```Qt %{Qt:Version} (install-arm-linux-gnueabihf)```
-   - Kit内手动（Manual）添加（add），名称自拟，本文为```arm-linux-gnueabihf```，Compiler中C选择```GCC(arm-linux-gnueabihf-gcc)```，C++选择```G++(arm-linux-gnueabihf-g++)```，```Qt version```选择```Qt 5.14.2(install-arm-linux-gnueabihf)```，其他默认不变
-
-9. 验证编译环境：新建工程-Application-Qt Widgets Application，name和path，qmake，Kit Selection选择为arm-linux-gnueabihf，取消勾选Desktop Qt 5.14.2 GCC 64bit，完成创建；项目-取消shadow build；Debug build方式；点击Debug运行按钮，**3 应用程序输出**窗口输出内容*Debugging starts;&"warning:xxxxxxxxxxx";无法执行二进制文件：可执行文件格式错误;成功;Debugging has finished*；在项目下找到与项目同名的可执行文件，传输到树莓派，```sudo chmod 777 executable_file```，```./executable_file```，可成功运行，完成交叉编译。
 
 ### 龙芯派二代系统配置
 
@@ -306,3 +289,44 @@ vncserver -localhost no :2
   提示可以进行make，于是执行```sudo make -j8```，得到报错：```Makefile:50: recipe for target 'sub-src-make_first' failed```
 
   ![LoongArch_P22](./image/LoongArch_P22.png)
+
+## 错误信息
+
+### 过去尝试编译qmake的方法
+
+1. 用工具链编译交叉编译所需的qmake：要求①存在路径```/opt/qt-everywhere-src-5.14.2```，如还未cp解压包到opt路径，可使用```cp -r xxx xxx```搬移文件夹；要求②在terminal内输入arm后连续按两下Tab应当出现相关工具链，否则需要添加工具链到环境变量，流程包含：
+
+   - 存在路径```/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf```，然后```sudo vim /etc/bash.bashrc```，在文件最后行```fi```下方填写内容：
+     1. ```export QTDIR=/opt/Qt5.14.2/5.14.2/gcc_64``````
+     2. ``````export PATH=$QTDIR/bin:/opt/Qt5.14.2/Tools/QtCreator/bin:$PATH```
+     3. export LD_LIBRARY_PATH=$QTDIR/lib:$LD_LIBRARY_PATH
+     4. ```export PATH=$PATH:/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin```
+
+   然后保存退出，执行```source /etc/profile```，可以完成arm后接两次Tab出现工具链
+
+   - 修改```/opt/qt-everywhere-src-5.14.2/qtbase/mkspecs/linux-arm-gnueabi-g++/qmake.conf```，修改内容包括：
+     1. ```QMAKE_CC=arm-linux-gnueabihf-gcc```，原内容为```QMAKE_CC=arm-linux-gnueabi-gcc```，以下同理
+     2. ```QMAKE_CXX=arm-linux-gnueabihf-g++``````
+     3. ``````QMAKE_LINK```
+     4. QMAKE_LINK_SHLIB
+     5. ```QMAKE_AR``````
+     6. ``````QMAKE_OBJCOPY```
+     7. QMAKE_NM
+     8. ```QMAKE_STRIP```
+   - 在```/opt/qt-everywhere-src-5.14.2```下运行指令：
+     1. ```sudo mkdir install```
+     2. ```./configure -prefix /opt/qt-everywhere-src-5.14.2/install -opensource -confirm-license -no-opengl -xplatform linux-arm-gnueabi-g++```，其中install为qmake生成路径，-no-opengl指定不编译OpenGL库，默认编译的话会给出报错内容：```ERROR:The OpenGL functionality tests failed!```；如果遇到报错：‘找不到g++’，可以给qmake.conf上的g++都修改为绝对路径，麻烦了一点而已，我也不知道为什么添加了路径还没被检测到。
+     3. ```sudo make -j4```，此处指明4个并行编译的任务数，一般为核心数的2倍，例如新建虚拟机时选择处理器数量为4，每个处理器的内核数量为1，总数为4，可指定-j8比较合适
+     4. ```sudo make install```，如果采用```sudo make -j4&&sudo make install```可能无法在install路径下找到qmake，可单独分开执行
+        - 如果```make -j4```时遇到其他问题，可自行搜索网络资源解决，本文未遇到其他问题。
+        - 在```/opt/qt-everywhere-src-5.14.2/install/bin```下获得qmake文件
+
+2. 在qtcreator内配置交叉编译环境：Tools-Options-Kits，
+
+   - 编译器内手动（Manual）添加（add）GCC-C，名称自拟，本文为```GCC(arm-linux-gnueabihf-gcc)```，路径为```/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-cpp```，注意是cpp不是gcc，手动（Manual）添加（add）GCC-C++，名称自拟，本文为```G++(arm-linux-gnueabihf-g++)```，路径为```/opt/gcc-linaro-7.5.0-2019.12-x86_64_arm-linux-gnueabihf/bin/arm-linux-gnueabihf-c++```，注意是c++不是g++
+   - Qt Version内手动（Manual）添加（add）```/opt/qt-everywhere-src-5.14.2/install/bin/qmake```，版本名称自拟，本文为```Qt %{Qt:Version} (install-arm-linux-gnueabihf)```
+   - Kit内手动（Manual）添加（add），名称自拟，本文为```arm-linux-gnueabihf```，Compiler中C选择```GCC(arm-linux-gnueabihf-gcc)```，C++选择```G++(arm-linux-gnueabihf-g++)```，```Qt version```选择```Qt 5.14.2(install-arm-linux-gnueabihf)```，其他默认不变
+
+3. 验证编译环境：新建工程-Application-Qt Widgets Application，name和path，qmake，Kit Selection选择为arm-linux-gnueabihf，取消勾选Desktop Qt 5.14.2 GCC 64bit，完成创建；项目-取消shadow build；Debug build方式；点击Debug运行按钮，**3 应用程序输出**窗口输出内容*Debugging starts;&"warning:xxxxxxxxxxx";无法执行二进制文件：可执行文件格式错误;成功;Debugging has finished*；在项目下找到与项目同名的可执行文件，传输到树莓派，```sudo chmod 777 executable_file```，```./executable_file```，可成功运行，完成交叉编译。
+
+上述方法会收到一堆报错信息，基本为qtopenextension找不到什么的，而且整个过程也不是很像龙芯提供的那一套工具一样，其中有些操作可以借鉴，有些操作用不了，放在最后用于汇总探索情况吧。
