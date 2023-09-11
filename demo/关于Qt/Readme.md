@@ -213,15 +213,15 @@ vncserver -localhost no :2
 
 #### 龙芯派二代交叉编译环境配置
 
-安装虚拟机、配置Qt编译依赖、配置工具链可参考*树莓派交叉编译环境配置*，此处直接从交叉编译、编译qmake文件开始。
+安装虚拟机请参考树莓派配置部分。
 
-1. 交叉编译工具链测试：于虚拟机中使用loongarch64-gcc工具链编译出可执行文件，上传到龙芯派中，本次测试hello world，结果如图，交叉编译结果在虚拟机内无法运行；在龙芯派二代中可顺利运行
+1. 交叉编译工具链测试：于虚拟机中使用``loongarch64-gcc``工具链编译出可执行文件，上传到龙芯派中，本次测试hello world，结果如图，交叉编译结果在虚拟机内无法运行；在龙芯派二代中可顺利运行
 
 ![L24](./image/LoongArch_P24.png)
 
 ![P25](./image/LoongArch_P25.png)
 
-2. 交叉编译qmake：相关结果参考**补充**详情。
+2. 交叉编译Qt项目：根据比赛官方群中的脚本文件``poky-glibc-x86_64-my-qt5-image-loongarch64-ls3a5000-toolchain-3.3+snapshot.sh``文件，执行该脚本文件，可在``/opt``路径下得到``loongarch64-linux-gnu-2021-12-10-vector``文件夹，在``/opt/loongarch64-linux-gnu-2021-12-10-vector/loongarch64-linux-gnu``下可看到sysroot，说明使用方法与树莓派类似，此处我仅补充一点，把loongarch的交叉编译套件配置到qt tools中、kits中时，通过图形化界面存在无法编译通过的情况，此时参考[龙芯2k1000LA平台：Qt与文件编译配置](https://www.bilibili.com/video/BV1Ge4y197gk/?spm_id_from=333.999.0.0&vd_source=eb5f24bfe098bea8c8c9297b89e1bd81)教程最后一分钟内的字符终端编译方法即可，我是这样编译成功的，因为我用Linux上的Desktop Kits编译是没问题的，但是换到loongarch的kits就出错，那一定是kits的问题，这里通过terminal解决了。其余问题可参考**补充**。
 
 官话：[Qt 5.15](https://doc.qt.io/qt-5/index.html)官话只有官网和无尽且看似无用的文档，各位有需自取
 
@@ -289,6 +289,8 @@ vncserver -localhost no :2
   提示可以进行make，于是执行```sudo make -j8```，得到报错：```Makefile:50: recipe for target 'sub-src-make_first' failed```
 
   ![LoongArch_P22](./image/LoongArch_P22.png)
+  
+  上述问题说明该编译流程存在一定的问题，并且qt-src/qtbase/mkspecs/中目前未发现对Loongarch64的支持，连树莓派的编译都可能存在问题的话，资料更少的龙芯派只会更难，所以想在短时间内自行编译一个Loongnix的交叉编译工具（任意版本）是不太现实的。
 
 ## 错误信息
 
