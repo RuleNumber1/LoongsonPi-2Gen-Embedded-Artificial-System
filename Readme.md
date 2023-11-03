@@ -37,7 +37,7 @@
 
 ## 框图
 
-![LoongArch_P1](./image/LoongArch_P1.png)
+<img src="./image/LoongArch_P1.png" width=60%>
 
 ### 框图说明
 
