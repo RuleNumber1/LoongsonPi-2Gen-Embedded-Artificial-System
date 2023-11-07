@@ -2,7 +2,7 @@
 
 ## 是什么
 
-人话：Linux是区别于Windows的一个桌面系统，但也不全是。一般可以视为Linux用于搞研究的话会有更大、更自由的空间吧？
+人话：Linux是区别于Windows的一个桌面系统，但也不全是。一般可以视为Linux用于搞研究的话会有更大、更自由的空间吧？常见的Linux发行版：[企业开源和Linux | Ubuntu](https://cn.ubuntu.com/)，[The CentOS Project](https://www.centos.org/)，[Loongnix (loongson.cn)](https://www.loongson.cn/system/loongnix)，[银河麒麟](https://www.kylinos.cn/)，[Raspberry Pi](https://www.raspberrypi.com/)，其他的我没用过、没听说过，跳过。
 
 官话：Linux是一套免费使用和自由传播的类Unix操作系统，是一个多用户、多任务、支持多线程和多CPU的操作系统。它能运行主要的UNIX工具软件、应用程序和网络协议。它支持32位和64位硬件。Linux继承了Unix以网络为核心的设计思想，是一个性能稳定的多用户网络操作系统。说的简单点，它就是一个操作系统。
 
@@ -10,7 +10,7 @@
 
 ## 怎么做
 
-人话：一般都是提倡用Linux 的CLI界面，即Character &*…… Interface，字符终端，就是Windows下的cmd，使用途径是通过路由器架起SSH服务器，然后windows下载一个ssh客户端，根据ip地址连接上去就行了，然后通过shell（或bash？）的指令进行操作，具体指令可以查阅网络手册，如菜鸟教程什么的，这种东西又不追求很复杂的操作，找点简单的网站看看就行了，多用比多学更重要。
+人话：一般都是提倡用Linux 的CLI界面，即Character （中间单词忘了） Interface，字符终端，就是Windows下的cmd，使用途径是通过路由器架起SSH服务器，然后windows下载一个ssh客户端，根据ip地址连接上去就行了，然后通过shell（或bash？）的指令进行操作，具体指令可以查阅网络手册，如菜鸟教程什么的，这种东西又不追求很复杂的操作，找点简单的网站看看就行了，多用比多学更重要。
 
 官话：《鸟哥的Linux私房菜.pdf》可以试试，或者随便找本书都能学
 
