@@ -1,10 +1,15 @@
+# 本页关键词
+
+- socket网络编程
+- 三种CS模式下的通信方式对比下的socket
+
 # 说明
 
 ## 是什么
 
 人话：可以视为在同一个IP网段下进行通信的一种方式，协议挺成熟的，拿来用就是了，搜索”网络编程“就行了
 
-官话：以下内容参考链接为[基于TCP协议的Socket通信](https://www.runoob.com/w3cnote/android-tutorial-socket1.html)，部分内容为本文档自行补充说明，并非纯原创。
+官话：《操作系统概念》第九版3.6.1小节说明，客户机与服务器有三种通信方式，套接字（Socket）、远程程序调用（RPC）和管道（Pipe），socket是通信的端点，进程通过网络与另一进程通信时需要一对socket，ip和port组成一个socket，server会监听port，等待client；server收到请求后接受来自client socket的连接；当client的一个进程发起连接请求时，client为进程分配一个port；该连接必须是唯一的，常见的三种socket方式为tcp、udp和multi-cast（多播）；使用socket通信是高效的，也是分布式进程间的低级通信形式，因为socket只允许进程交换字节流，即每次通信都是一个byte一个byte发送的，而RPC则具有明确的数据结构，主要用于分布式文件系统；Pipe更像一个父子进程间的串口或平级进程之间的串口，允许字节流或消息流。以下内容参考链接为[基于TCP协议的Socket通信](https://www.runoob.com/w3cnote/android-tutorial-socket1.html)，部分内容为本文档自行补充说明，并非纯原创。
 
 ### Socket说明
 

@@ -1,3 +1,15 @@
+
+
+# 本页关键词
+
+- ESP8266
+- 代码用途
+- ESP芯片简介
+- Arduino
+- NodeMCU
+- 太极创客
+- 与ESP相关的学习链接
+
 # 说明
 
 - EdgeArtificialNode：比赛作品所用的代码，烧写即可
