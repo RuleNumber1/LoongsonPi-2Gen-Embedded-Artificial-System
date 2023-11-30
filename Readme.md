@@ -65,7 +65,7 @@
 - [1.7 关于OneNET](./demo/关于OneNET/Readme.md)
 - [1.8 关于手机端](./demo/关于手机端/Readme.md)
 
-[2.0 额外说明](./addition/额外说明/Readme.md)
+[2.0 TroubleShooting](./addition/1.TroubleShooting/Readme.md)
 
-[3.0 Q&A](./addition/Q&A/Readme.md)
+[2.1 ProgramBesides](./addition/2.ProgramBesides/Readme.md)
 

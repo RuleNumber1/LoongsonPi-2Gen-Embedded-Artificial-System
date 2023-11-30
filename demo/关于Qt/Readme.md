@@ -4,23 +4,23 @@
 
 - 操作系统区分下的Qt
 - Qt安装
-- qmake编译qtmqtt
-- Qt编写TCP客户端
+- ``qmake``编译``qtmqtt``
+- Qt编写``TCP``客户端
 - 树莓派与龙芯派的交叉编译方法
 
 # 说明
 
-- Loongnix：主要包含一个可以直接在loongarch64架构上运行的可执行文件，不包含相关库，以及一个已编译的loongarch64-mqtt lib压缩包，Readme应该写怎么配置mqtt库的，但我确实忘了，或者已经在下文中说明了。
-- Raspbian：主要包含一个可以直接在armv8架构上运行的可执行文件，不包含相关库，以及一个烧录指定版本树莓派系统的烧录工具，镜像可自行查找，这一个甚至没有Readme
-- Ubuntu：主要包含一个可以在x86架构上运行的可执行文件，与Loongnix目录下可执行文件相同，仅支持架构不同，以及一个已编译的x86-mqtt lib压缩包
-- Windows：主要包含一个可以在x86架构上运行的可执行文件，系统是windows，可执行文件类型是exe，以及相关lib压缩包
-- src：包含Loongnix、Ubuntu、Windows目录中可执行文件的源码和图形界面，本身比较简单我就不多做说明了
+- ``Loongnix``：主要包含一个可以直接在``loongarch64``架构上运行的可执行文件，不包含相关库，以及一个已编译的``loongarch64-mqtt lib``压缩包，``Readme``应该写怎么配置``mqtt``库的，但我确实忘了，或者已经在下文中说明了。
+- ``Raspbian``：主要包含一个可以直接在``armv8``架构上运行的可执行文件，不包含相关库，以及一个烧录指定版本树莓派系统的烧录工具，镜像可自行查找，这一个甚至没有``Readme``
+- ``Ubuntu``：主要包含一个可以在``x86``架构上运行的可执行文件，与``Loongnix``目录下可执行文件相同，仅支持架构不同，以及一个已编译的``x86-mqtt lib``压缩包
+- ``Windows``：主要包含一个可以在``x86``架构上运行的可执行文件，系统是``windows``，可执行文件类型是``exe``，以及相关``lib``压缩包
+- ``src``：包含``Loongnix、Ubuntu、Windows``目录中可执行文件的源码和图形界面，本身比较简单我就不多做说明了
 
 ## 是什么
 
 人话：Qt是一个软件包，如果你希望使用Qt进行C++的编程开发或者进行图形化开发，而不是VS或VS Code，那么你会下载好大一推软件，并且它们都以Qt为前缀，甚至对于第一次上手的新手来说，你可能连使用哪个版本都搞不明白。Qt Creator是Qt的核心一样的东西，我们可以用它敲代码，编译、设计图形化界面，这个过程就可以叫做用Qt进行开发。
 
-官话：Qt 是一款跨平台的应用程序开发框架，用于开发具有图形用户界面（GUI）和非图形用户界面（非 GUI）的应用程序。Qt 成立于 1991 年，是由挪威公司 Trolltech 创立的。1996 年，Qt 进入商业领域，并成为全球众多成功应用程序的基础。目前，Qt 属于诺基亚公司。Qt 是一个面向对象的框架，支持多种编程语言，如 C++、Python 等。它提供了丰富的功能，包括界面元素、数据存储、网络通信等，以帮助开发者轻松构建跨平台的应用程序。Qt 有专业版本和企业版本，适用于不同的开发需求。此外，Qt 还为移动设备提供了 Qt Mobile 版，用于开发手机、平板等移动设备的应用程序。
+官话：Qt 是一款跨平台的应用程序开发框架，用于开发具有图形用户界面（GUI）和非图形用户界面（非 GUI）的应用程序。Qt 成立于 1991 年，是由挪威公司 ``Trolltech`` 创立的。1996 年，Qt 进入商业领域，并成为全球众多成功应用程序的基础。目前，Qt 属于诺基亚公司。Qt 是一个面向对象的框架，支持多种编程语言，如 C++、Python 等。它提供了丰富的功能，包括界面元素、数据存储、网络通信等，以帮助开发者轻松构建跨平台的应用程序。Qt 有专业版本和企业版本，适用于不同的开发需求。此外，Qt 还为移动设备提供了 Qt Mobile 版，用于开发手机、平板等移动设备的应用程序。
 
 唠叨：我第一次听说Qt这个东西是在一门工程实践课程上，由舍友给我灌输的概念，当时我就以为Qt无非是一个用来画GUI界面和设计GUI软件的图形软件设计器，真正使用Qt就是在这一次比赛中，我没多余的时间再去找一本Qt教材慢慢入门，直接紧急上手，紧急上手了三个月之后终于用qmake完成了交叉编译的工作，对于Qt是什么，我想我的回答不是很合格，但我已经非常尽力去用我的认知表达我的见解和直接感受了，至于深入使用之后，对Qt的认知是否会发生根本上的改变，我想这是十分值得期待的事情。
 
@@ -30,7 +30,7 @@
 
 ### Windows安装Qt 5.14.2
 
-清华镜像源：```https://mirrors.tuna.tsinghua.edu.cn/qt/official_releases/qt/```，打开任意版本的QT的offline_readme.txt可看到内容如下（我打开5.15.0）：
+清华镜像源：```https://mirrors.tuna.tsinghua.edu.cn/qt/official_releases/qt/```，打开任意版本的QT的``offline_readme.txt``可看到内容如下（我打开5.15.0）：
 
 ```latex
 Due to The Qt Company offering changes, open source offline installers are not available any more since Qt 5.15. Read more about offering changes in the https://www.qt.io/blog/qt-offering-changes-2020 blog.
@@ -52,13 +52,13 @@ QT官网下载地址：[Index of /archive/qt](https://download.qt.io/archive/qt/
 
 Github仓库链接：[qt/qtmqtt: Qt Module to implement MQTT protocol version 3.1 and 3.1.1](https://github.com/qt/qtmqtt)，打开之后不急着下载，选择与Qt对应的版本。仓库内把dev分支调整为5.14.2后再下载，最好使用git或github desktop下载该仓库，以保证文件完整和完好性，直接下载ZIP压缩包可能存在一些问题。
 
-下载完成后可用Qt Creator打开qtmqtt.pro文件，在Qt界面内可以看到examples、src、tests目录，src目录下有src.pro、mqtt目录，mqtt目录下有mqtt.pro、Headers、Sources、Other files目录，该内容为我们需要编译为动态链接库的内容。
+下载完成后可用Qt Creator打开``qtmqtt.pro``文件，在Qt界面内可以看到``examples、src、tests``目录，``src``目录下有``src.pro、mqtt``目录，``mqtt``目录下有``mqtt.pro、Headers、Sources、Other files``目录，该内容为我们需要编译为动态链接库的内容。
 
 点击Qt界面左侧的**项目**，配置如图。
 
 ![P8](.\image\LoongArch_P8.png)
 
-图中首先需要取消勾选Shadow build，编译器版本可随意选择MinGW 64-bit或32-bit，图中选择64-bit，编译对象在左下角选择为Debug和qtmqtt_pub，点击第带Debug的运行按钮，一般Qt会自动打开编译输出窗口，如未打开，可自行打开**4 编译输出**，拉高编译输出的窗口，如果编译正常可看到下图内容。
+图中首先需要取消勾选``Shadow build``，编译器版本可随意选择``MinGW 64-bit``或``32-bit``，图中选择``64-bit``，编译对象在左下角选择为``Debug``和``qtmqtt_pub``，点击第带``Debug``的运行按钮，一般Qt会自动打开编译输出窗口，如未打开，可自行打开**4 编译输出**，拉高编译输出的窗口，如果编译正常可看到下图内容。
 
 ![P9](./image/LoongArch_P9.png)
 
@@ -66,13 +66,13 @@ Github仓库链接：[qt/qtmqtt: Qt Module to implement MQTT protocol version 3.
 
 打开windows的文件管理器，找到该Github仓库的本地路径（```F:\xxx\qtmqtt-5.14.2\qtmqtt-5.14.2```）
 
-1. 复制lib文件下的.a文件和.prl文件到编译器的lib中（编译器路径通常为Qt安装路径），例如此处把两个文件放到```Qt\5.14.2\mingw73_64```的lib下；
-2. 把.dll文件复制到编译器的bin路径下；
-3. 把lib/cmake下的文件夹也复制到编译器的lib/cmake路径下；
-4. 把mkspecs下的.pri文件也拷贝到编译器，如不存在对应的文件夹，可自己新建或直接把文件夹复制过去，命名不变即可；
-5. 把include下的QtMqtt也复制到编译器的include目录下
+1. 复制lib文件下的``.a``文件和``.prl``文件到编译器的lib中（编译器路径通常为Qt安装路径），例如此处把两个文件放到```Qt\5.14.2\mingw73_64```的lib下；
+2. 把``.dll``文件复制到编译器的bin路径下；
+3. 把``lib/cmake``下的文件夹也复制到编译器的``lib/cmake``路径下；
+4. 把``mkspecs``下的``.pri``文件也拷贝到编译器，如不存在对应的文件夹，可自己新建或直接把文件夹复制过去，命名不变即可；
+5. 把``include``下的``QtMqtt``也复制到编译器的``include``目录下
 
-结束编译QtMqtt的动态链接库，此时应可以在Qt中使用mqtt的库。
+结束编译``QtMqtt``的动态链接库，此时应可以在Qt中使用``mqtt``的库。
 
 #### 编写mqtt和socket客户端
 

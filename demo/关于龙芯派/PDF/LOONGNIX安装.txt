@@ -1,0 +1,16 @@
+链接: https://pan.baidu.com/s/1eaH2VV6qMWgb-uH8UtGR8g 提取码: 90q8 
+--来自百度网盘超级会员v2的分享
+
+准备6G以上的U盘，在linux下fdisk -l查看设备，这里假设查出来是/dev/sdb
+
+将U盘格式化成ext4：
+mkfs.ext4 /dev/sdb
+
+将LOONGNIX安装ISO拷贝到LINUX系统下使用dd命令拷贝ISO内文件到U盘：
+dd if=Loongnix-Embedded-20.1.rc2-loongarch64-DVD-1.iso of=/dev/sdb bs=10M
+
+如果要打印进度可以另开一个窗口输入：
+while killall -USR1 dd; do sleep 5; done
+
+
+完成后U盘插到开发板再给开发板上电启动，进入U盘安装界面，接上键盘和显示器看界面安装
