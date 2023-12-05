@@ -1,20 +1,26 @@
 # 说明
 
-## 是什么
+本文为比赛作品在选型初期、开发中期及比赛后期中遇到的问题集。
 
-人话：
+## reboot指令
 
-官话：
+reboot指令位于``/usr/sbin/reboot`，所以需要`sudo reboot`才能执行重启
 
-唠叨：
+## vnc类
 
-## 怎么做
+```bash
+install tigervncserver
 
-人话：
+vncserver :2
+#127.0.0.1:5902
 
-官话：
+vncserver -localhost no :2
+#0.0.0.0:5902
 
-唠叨：
+vncserver -kill :2
 
-## 补充
+#切换:ctrl+alt+F2/F1
+
+netstat -ntlp | grep vnc
+```
 
